@@ -14,6 +14,7 @@ SpreeVariantOption.OptionValuesHandler = function(selectors) {
 SpreeVariantOption.OptionValuesHandler.prototype.init = function() {
   this.bindEvents();
   this.optionsButton.filter('[data-level!=1]').addClass('locked').removeClass('selected');
+  this.unlockNextLevel(this.optionsButton.filter('[data-level=1]'), true);
   this.disableCartInputFields(true);
 };
 
@@ -106,12 +107,20 @@ SpreeVariantOption.OptionValuesHandler.prototype.setVariantId = function(is_exis
   }
 };
 
-SpreeVariantOption.OptionValuesHandler.prototype.unlockNextLevel = function(optionValue) {
-  var allOptionValues = optionValue.closest('.variant-options').next().find('.option-value'),
+SpreeVariantOption.OptionValuesHandler.prototype.unlockNextLevel = function(optionValue, firstLevel) {
+  if ( firstLevel == null ) firstLevel = false;
+
+  var allOptionValues = optionValue.closest('.variant-options'),
       availableOptionValueCount = 0,
       availableOptionValue,
       _this = this,
       details;
+
+  if ( firstLevel == true ){
+    allOptionValues = allOptionValues.find('.option-value');
+  } else {
+    allOptionValues = allOptionValues.next().find('.option-value');
+  }
 
   allOptionValues.each(function() {
     var $this = $(this),
@@ -124,12 +133,12 @@ SpreeVariantOption.OptionValuesHandler.prototype.unlockNextLevel = function(opti
       availableOptionValueCount += 1;
       availableOptionValue = $this;
       if(($this.data('level') == options["option_type_count"]) && !details["inStock"] && !options["allow_select_outofstock"]) {
-        $this.addClass('out-of-stock');
+        $this.addClass('out-of-stock locked');
       } else {
         $this.removeClass('out-of-stock locked');
       }
     } else {
-      $this.removeClass('out-of-stock');
+      $this.removeClass('out-of-stock locked');
     }
   });
 
