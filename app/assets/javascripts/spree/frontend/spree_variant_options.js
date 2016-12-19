@@ -61,7 +61,9 @@ SpreeVariantOption.OptionValuesHandler.prototype.disableCartInputFields = functi
   this.addToCartButton.prop('disabled', value);
   this.quantityField.prop('disabled', value);
 
-  if(value) { this.priceHeading.html(this.label('select_variant')).addClass('price-not-shown'); }
+  if(value && variant_options_config.hide_master_price) {
+    this.priceHeading.html(this.label('select_variant')).addClass('price-not-shown');
+  }
 };
 
 SpreeVariantOption.OptionValuesHandler.prototype.updateSiblings = function(optionValue) {
@@ -106,7 +108,9 @@ SpreeVariantOption.OptionValuesHandler.prototype.setVariantId = function(is_exis
     this.priceHeading.html(this.variantPrice).removeClass('price-not-shown');
   } else {
     this.variantField.val('');
-    this.priceHeading.html(this.label('select_variant')).addClass('price-not-shown');
+    if (variant_options_config.hide_master_price) {
+      this.priceHeading.html(this.label('select_variant')).addClass('price-not-shown');
+    }
   }
 };
 
