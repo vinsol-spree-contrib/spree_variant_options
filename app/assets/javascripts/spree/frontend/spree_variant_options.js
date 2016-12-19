@@ -2,15 +2,16 @@
 //= require extentions/array
 //= require extentions/global_methods
 
-var SpreeVariantOption = {}
-SpreeVariantOption.OptionValuesHandler = function(selectors) {
-  this.optionsButton = selectors.optionsButton;
-  this.addToCartButton = selectors.addToCartButton;
-  this.clearButtons = selectors.clearButtons;
-  this.priceHeading = selectors.priceHeading;
-  this.quantityField = selectors.quantityField;
-  this.variantField = selectors.variantField;
-  this.thumbImages = selectors.thumbImages;
+var SpreeVariantOption = {};
+SpreeVariantOption.OptionValuesHandler = function(options) {
+  this.optionsButton = options.optionsButton;
+  this.addToCartButton = options.addToCartButton;
+  this.clearButtons = options.clearButtons;
+  this.priceHeading = options.priceHeading;
+  this.quantityField = options.quantityField;
+  this.variantField = options.variantField;
+  this.thumbImages = options.thumbImages;
+  this.locale = options.locale;
   this.variantId = 0;
   this.variantPrice = 0;
 };
@@ -61,7 +62,7 @@ SpreeVariantOption.OptionValuesHandler.prototype.disableCartInputFields = functi
   this.addToCartButton.prop('disabled', value);
   this.quantityField.prop('disabled', value);
 
-  if(value) { this.priceHeading.html('Select Variant'); }
+  if(value) { this.priceHeading.html(this.label('select_variant')); }
 };
 
 SpreeVariantOption.OptionValuesHandler.prototype.updateSiblings = function(optionValue) {
@@ -106,7 +107,7 @@ SpreeVariantOption.OptionValuesHandler.prototype.setVariantId = function(is_exis
     this.priceHeading.html(this.variantPrice);
   } else {
     this.variantField.val('');
-    this.priceHeading.html('Select Variant');
+    this.priceHeading.html(this.label('select_variant'));
   }
 };
 
@@ -173,6 +174,19 @@ SpreeVariantOption.OptionValuesHandler.prototype.showVariantImages = function(va
   imagesToShow.first().trigger('mouseenter');
 };
 
+SpreeVariantOption.OptionValuesHandler.prototype.label = function(name, locale) {
+  if (!locale) { locale = this.locale; }
+  var locales = {
+    en: {
+      select_variant: 'Select variant'
+    },
+    da: {
+      select_variant: 'Vælg variant'
+    }
+  };
+  return locales[locale][name];
+};
+
 $(function () {
   (new SpreeVariantOption.OptionValuesHandler({
     optionsButton: $('.option-value'),
@@ -181,6 +195,7 @@ $(function () {
     quantityField: $('#quantity'),
     variantField: $('#variant_id'),
     thumbImages: $('li.vtmb'),
-    clearButtons: $('.clear-button')
+    clearButtons: $('.clear-button'),
+    locale: Spree.url_params.locale || 'en'
   })).init();
 });
