@@ -28,7 +28,8 @@
       var variant_options_config = {
         option_type_count: <%== ordered_option_types.length %>,
         allow_select_outofstock: <%== !!SpreeVariantOptions::VariantConfig[:allow_select_outofstock] %>,
-        default_instock: <%== !!SpreeVariantOptions::VariantConfig[:default_instock] %>
+        default_instock: <%== !!SpreeVariantOptions::VariantConfig[:default_instock] %>,
+        locale: "<%= Spree::Frontend::Config[:locale] %>"
       }
     //]]>
     </script>

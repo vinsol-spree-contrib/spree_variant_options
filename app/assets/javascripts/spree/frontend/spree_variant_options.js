@@ -11,7 +11,6 @@ SpreeVariantOption.OptionValuesHandler = function(options) {
   this.quantityField = options.quantityField;
   this.variantField = options.variantField;
   this.thumbImages = options.thumbImages;
-  this.locale = options.locale;
   this.variantId = 0;
   this.variantPrice = 0;
 };
@@ -175,7 +174,7 @@ SpreeVariantOption.OptionValuesHandler.prototype.showVariantImages = function(va
 };
 
 SpreeVariantOption.OptionValuesHandler.prototype.label = function(name, locale) {
-  if (!locale) { locale = this.locale; }
+  if (!locale) { locale = variant_options_config.locale; }
   var locales = {
     en: {
       select_variant: 'Select variant'
@@ -195,7 +194,6 @@ $(function () {
     quantityField: $('#quantity'),
     variantField: $('#variant_id'),
     thumbImages: $('li.vtmb'),
-    clearButtons: $('.clear-button'),
-    locale: Spree.url_params.locale || 'en'
+    clearButtons: $('.clear-button')
   })).init();
 });
