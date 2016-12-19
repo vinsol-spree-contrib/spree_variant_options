@@ -24,7 +24,6 @@ SpreeVariantOption.OptionValuesHandler.prototype.init = function() {
 SpreeVariantOption.OptionValuesHandler.prototype.bindEvents = function() {
   this.optionsButtonClickHandler();
   this.clearButtonClickHandler();
-
 };
 
 SpreeVariantOption.OptionValuesHandler.prototype.optionsButtonClickHandler = function() {
@@ -191,6 +190,9 @@ SpreeVariantOption.OptionValuesHandler.prototype.label = function(name, locale) 
 };
 
 $(function () {
+  if (typeof(variant_options_config) == 'undefined') {
+    return;
+  }
   (new SpreeVariantOption.OptionValuesHandler({
     optionsButton: $('.option-value'),
     addToCartButton: $('#add-to-cart-button'),
