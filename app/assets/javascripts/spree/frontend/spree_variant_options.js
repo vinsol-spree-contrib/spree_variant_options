@@ -40,7 +40,7 @@ SpreeVariantOption.OptionValuesHandler.prototype.optionsButtonClickHandler = fun
       _this.resetAllNextLevel($this);
       _this.unlockNextLevel($this);
 
-      if($this.data('level') == options["option_type_count"]) {
+      if($this.data('level') == options.option_type_count) {
         _this.setVariantWithSelecetedValues();
       }
     }
@@ -128,7 +128,7 @@ SpreeVariantOption.OptionValuesHandler.prototype.unlockNextLevel = function(opti
     if(details) {
       availableOptionValueCount += 1;
       availableOptionValue = $this;
-      if(($this.data('level') == options["option_type_count"]) && !details["inStock"] && !options["allow_select_outofstock"]) {
+      if(($this.data('level') == options.option_type_count) && !details.inStock && !options.allow_select_outofstock) {
         $this.addClass('out-of-stock');
       } else {
         $this.removeClass('out-of-stock locked');
