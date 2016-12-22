@@ -65,6 +65,11 @@ These configuration options can be set in a config/initializers/spree_variant_op
 ```ruby
 SpreeVariantOptions::VariantConfig.allow_select_outofstock = true
 SpreeVariantOptions::VariantConfig.default_instock = true
+
+# When false, the master price is shown before any variants are selected
+# When true, 'Select Variant' text is show in the price display and then the price
+# is shown after the user selects their variants.
+SpreeVariantOptions::VariantConfig.hide_master_price = false
 ```
 
 ### Storage options
