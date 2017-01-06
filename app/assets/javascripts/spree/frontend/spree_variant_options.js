@@ -2,15 +2,15 @@
 //= require extentions/array
 //= require extentions/global_methods
 
-var SpreeVariantOption = {}
-SpreeVariantOption.OptionValuesHandler = function(selectors) {
-  this.optionsButton = selectors.optionsButton;
-  this.addToCartButton = selectors.addToCartButton;
-  this.clearButtons = selectors.clearButtons;
-  this.priceHeading = selectors.priceHeading;
-  this.quantityField = selectors.quantityField;
-  this.variantField = selectors.variantField;
-  this.thumbImages = selectors.thumbImages;
+var SpreeVariantOption = {};
+SpreeVariantOption.OptionValuesHandler = function(options) {
+  this.optionsButton = options.optionsButton;
+  this.addToCartButton = options.addToCartButton;
+  this.clearButtons = options.clearButtons;
+  this.priceHeading = options.priceHeading;
+  this.quantityField = options.quantityField;
+  this.variantField = options.variantField;
+  this.thumbImages = options.thumbImages;
   this.variantId = 0;
   this.variantPrice = 0;
 };
@@ -26,7 +26,6 @@ SpreeVariantOption.OptionValuesHandler.prototype.init = function() {
 SpreeVariantOption.OptionValuesHandler.prototype.bindEvents = function() {
   this.optionsButtonClickHandler();
   this.clearButtonClickHandler();
-
 };
 
 SpreeVariantOption.OptionValuesHandler.prototype.optionsButtonClickHandler = function() {
@@ -41,7 +40,7 @@ SpreeVariantOption.OptionValuesHandler.prototype.optionsButtonClickHandler = fun
       _this.resetAllNextLevel($this);
       _this.unlockNextLevel($this);
 
-      if($this.data('level') == options["option_type_count"]) {
+      if($this.data('level') == variant_options_config.option_type_count) {
         _this.setVariantWithSelecetedValues();
       }
     }
@@ -63,7 +62,9 @@ SpreeVariantOption.OptionValuesHandler.prototype.disableCartInputFields = functi
   this.addToCartButton.prop('disabled', value);
   this.quantityField.prop('disabled', value);
 
-  if(value) { this.priceHeading.html('Select Variant'); }
+  if(value && variant_options_config.hide_master_price) {
+    this.priceHeading.html(this.label('select_variant')).addClass('price-not-shown');
+  }
 };
 
 SpreeVariantOption.OptionValuesHandler.prototype.updateSiblings = function(optionValue) {
@@ -105,10 +106,12 @@ SpreeVariantOption.OptionValuesHandler.prototype.anyVariantExists = function(con
 SpreeVariantOption.OptionValuesHandler.prototype.setVariantId = function(is_exist) {
   if(is_exist) {
     this.variantField.val(this.variantId);
-    this.priceHeading.html(this.variantPrice);
+    this.priceHeading.html(this.variantPrice).removeClass('price-not-shown');
   } else {
     this.variantField.val('');
-    this.priceHeading.html('Select Variant');
+    if (variant_options_config.hide_master_price) {
+      this.priceHeading.html(this.label('select_variant')).addClass('price-not-shown');
+    }
   }
 };
 
@@ -129,7 +132,7 @@ SpreeVariantOption.OptionValuesHandler.prototype.unlockNextLevel = function(opti
     if(details) {
       availableOptionValueCount += 1;
       availableOptionValue = $this;
-      if(($this.data('level') == options["option_type_count"]) && !details["inStock"] && !options["allow_select_outofstock"]) {
+      if(($this.data('level') == variant_options_config.option_type_count) && !details.inStock && !variant_options_config.allow_select_outofstock) {
         $this.addClass('out-of-stock');
       } else {
         $this.removeClass('out-of-stock locked');
@@ -175,7 +178,23 @@ SpreeVariantOption.OptionValuesHandler.prototype.showVariantImages = function(va
   imagesToShow.first().trigger('mouseenter');
 };
 
+SpreeVariantOption.OptionValuesHandler.prototype.label = function(name, locale) {
+  if (!locale) { locale = variant_options_config.locale; }
+  var locales = {
+    en: {
+      select_variant: 'Select variant'
+    },
+    da: {
+      select_variant: 'Vælg variant'
+    }
+  };
+  return locales[locale][name];
+};
+
 $(function () {
+  if (typeof(variant_options_config) == 'undefined') {
+    return;
+  }
   (new SpreeVariantOption.OptionValuesHandler({
     optionsButton: $('.option-value'),
     addToCartButton: $('#add-to-cart-button'),

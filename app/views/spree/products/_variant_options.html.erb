@@ -25,12 +25,13 @@
     <script type="text/javascript">
     //<![CDATA[
       var variant_option_details = <%== @product.variants_option_value_details.to_json %>
-      var options = {
+      var variant_options_config = {
         option_type_count: <%== ordered_option_types.length %>,
         allow_select_outofstock: <%== !!SpreeVariantOptions::VariantConfig[:allow_select_outofstock] %>,
-        default_instock: <%== !!SpreeVariantOptions::VariantConfig[:default_instock] %>
+        default_instock: <%== !!SpreeVariantOptions::VariantConfig[:default_instock] %>,
+        hide_master_price: <%== !!SpreeVariantOptions::VariantConfig[:hide_master_price] %>,
+        locale: "<%= Spree::Frontend::Config[:locale] %>"
       }
-
     //]]>
     </script>
   </ul>
