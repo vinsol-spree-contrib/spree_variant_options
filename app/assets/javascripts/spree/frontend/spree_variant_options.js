@@ -21,6 +21,10 @@ SpreeVariantOption.OptionValuesHandler.prototype.init = function() {
   if(this.optionsButton.length != 0) {
     this.disableCartInputFields(true);
   }
+
+  if(options.default_instock) {
+    this.clickDefaultButtons();
+  }
 };
 
 SpreeVariantOption.OptionValuesHandler.prototype.bindEvents = function() {
@@ -118,11 +122,9 @@ SpreeVariantOption.OptionValuesHandler.prototype.unlockNextLevel = function(opti
       availableOptionValue,
       _this = this,
       details;
-
   allOptionValues.each(function() {
     var $this = $(this),
         conditions = {};
-
     conditions[$(this).data('typeId')] = $(this).data('valueId');
     details = _this.anyVariantExists(conditions);
 
@@ -138,7 +140,6 @@ SpreeVariantOption.OptionValuesHandler.prototype.unlockNextLevel = function(opti
       $this.removeClass('out-of-stock');
     }
   });
-
   if(availableOptionValueCount == 1) {
     availableOptionValue.trigger('click');
   }
@@ -174,6 +175,14 @@ SpreeVariantOption.OptionValuesHandler.prototype.showVariantImages = function(va
   imagesToShow.show();
   imagesToShow.first().trigger('mouseenter');
 };
+
+SpreeVariantOption.OptionValuesHandler.prototype.clickDefaultButtons = function(){
+  $('.variant-options').each(function(){
+      let buttonToClick = $(this).find('.option-value').not('.locked').first();
+      if(!buttonToClick) { return null; }
+      buttonToClick.trigger('click');
+    });
+}
 
 $(function () {
   (new SpreeVariantOption.OptionValuesHandler({
