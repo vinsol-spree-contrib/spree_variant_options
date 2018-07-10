@@ -6,6 +6,14 @@ Spree Variant Options is a very simple spree extension that replaces the radio-b
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/vinsol-spree-contrib/spree-demo-heroku/tree/spree-variant-options-3-4)
 
 
+  Try Spree Qoutes Management for Spree 3-1 with direct deployment on Heroku:
+
+  [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/vinsol-spree-contrib/spree-demo-heroku/tree/spree-variant-options-3-1)
+
+  Try Spree Qoutes Management for Spree 3-4 with direct deployment on Heroku:
+
+  [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/vinsol-spree-contrib/spree-demo-heroku/tree/spree-variant-options-3-4)
+
 #### When no selection has been made:
 ![Spree Variant Options - No selection](http://spree-docs.s3.amazonaws.com/spree_variant_options/v0.3.1/1.jpg)
 
